@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>PortalVisionFix</AssemblyName>
+    <RootNamespace>PortalVisionFix</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>disable</Nullable>
+    <!-- Compile against the game's own BCL instead of downloading a reference pack. -->
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <NoStdLib>true</NoStdLib>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL</GameDir>
+    <ManagedDir>$(GameDir)\ULTRAKILL_Data\Managed</ManagedDir>
+    <BepInExDir>$(GameDir)\BepInEx</BepInExDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="$(ManagedDir)\mscorlib.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\netstandard.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\System.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\System.Core.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Assembly-CSharp.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.AudioModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.PhysicsModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.AIModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.Collections.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.Mathematics.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.Burst.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Bcl.CollectionsMarshal.dll" Private="false" />
+    <Reference Include="$(BepInExDir)\core\BepInEx.dll" Private="false" />
+    <Reference Include="$(BepInExDir)\core\0Harmony.dll" Private="false" />
+  </ItemGroup>
+
+  <!-- dotnet build -p:Install=true copies the plugin into BepInEx/plugins. -->
+  <Target Name="InstallPlugin" AfterTargets="Build" Condition="'$(Install)' == 'true'">
+    <MakeDir Directories="$(BepInExDir)\plugins\PortalVisionFix" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BepInExDir)\plugins\PortalVisionFix" />
+  </Target>
+
+</Project>
